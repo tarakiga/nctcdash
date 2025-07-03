@@ -1,9 +1,41 @@
-import streamlit as st
-import pandas as pd
+import sys
+import subprocess
+import platform
+
+# Configure environment before any imports
+def configure_environment():
+    # Install missing packages
+    required = {
+        'matplotlib': 'matplotlib==3.8.4',
+        'seaborn': 'seaborn==0.13.2',
+        'plotly': 'plotly==5.18.0',
+        'pandas': 'pandas==2.2.1'
+    }
+    
+    for pkg, ver in required.items():
+        try:
+            __import__(pkg)
+        except ImportError:
+            subprocess.check_call([sys.executable, "-m", "pip", "install", ver])
+
+configure_environment()
+
+# Now import with proper configuration
+import matplotlib
+matplotlib.use('Agg')  # Must come before pyplot import
 import matplotlib.pyplot as plt
+import pandas as pd
 import seaborn as sns
 import plotly.express as px
+import streamlit as st
 from datetime import datetime
+
+# Special handling for plotly
+try:
+    import plotly.express as px
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "plotly"])
+    import plotly.express as px
 
 
 # Set page config
