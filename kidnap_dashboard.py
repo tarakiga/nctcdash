@@ -37,17 +37,38 @@ df['month_name'] = df['month'].map(month_map)
 
 # Sidebar filters
 st.sidebar.title("Filters")
+
+# Year selection
 selected_years = st.sidebar.multiselect(
     "Select Years",
     options=sorted(df['year'].unique()),
     default=sorted(df['year'].unique())
 )
 
-selected_states = st.sidebar.multiselect(
-    "Select States",
-    options=sorted(df['state'].unique()),
-    default=['FCT', 'KADUNA', 'ZAMFARA', 'KATSINA']
-)
+# State selection with toggle
+all_states = sorted(df['state'].unique())
+
+# Create a container for the state selection header
+state_header = st.sidebar.container()
+col1, col2 = state_header.columns([3, 1])
+with col1:
+    st.write("Select States")
+with col2:
+    select_all = st.button("All/None")
+
+# State multiselect
+if select_all:
+    selected_states = st.sidebar.multiselect(
+        " ",  # Empty label since we have it above
+        options=all_states,
+        default=all_states
+    )
+else:
+    selected_states = st.sidebar.multiselect(
+        " ",  # Empty label since we have it above
+        options=all_states,
+        default=['FCT', 'KADUNA', 'ZAMFARA', 'KATSINA']
+    )
 
 # Filter data based on selections
 filtered_df = df[
