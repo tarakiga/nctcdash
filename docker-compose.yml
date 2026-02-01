@@ -11,10 +11,12 @@ services:
       - traefik-proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nctcdash.rule=Host(`analytics.nctc-dashboard.ng`)"
+      # Use single quotes to ensure shell/yaml safety
+      - "traefik.http.routers.nctcdash.rule=Host('analytics.nctc-dashboard.ng')"
       - "traefik.http.routers.nctcdash.entrypoints=websecure"
       - "traefik.http.routers.nctcdash.tls.certresolver=letsencrypt"
       - "traefik.http.services.nctcdash.loadbalancer.server.port=8501"
+      - "traefik.docker.network=traefik-proxy"
 
 networks:
   traefik-proxy:
