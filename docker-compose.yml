@@ -12,7 +12,7 @@ services:
     labels:
       - "traefik.enable=true"
       # Use single quotes to ensure shell/yaml safety
-      - "traefik.http.routers.nctcdash.rule=Host('analytics.nctc-dashboard.ng')"
+      - "traefik.http.routers.nctcdash.rule=Host(`analytics.nctc-dashboard.ng`)"
       - "traefik.http.routers.nctcdash.entrypoints=websecure"
       - "traefik.http.routers.nctcdash.tls.certresolver=letsencrypt"
       - "traefik.http.services.nctcdash.loadbalancer.server.port=8501"
